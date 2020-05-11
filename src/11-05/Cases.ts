@@ -8,7 +8,7 @@ export type Case = {
   result: Image;
 };
 
-const case1 = {
+const case1: Case = {
   image: [
     [0, 0, 0],
     [1, 0, 0],
@@ -22,7 +22,7 @@ const case1 = {
   ],
 };
 
-const case2 = {
+const case2: Case = {
   image: [
     [1, 1, 1],
     [1, 1, 0],
@@ -38,4 +38,18 @@ const case2 = {
   ],
 };
 
-export const cases = [case1, case2];
+const case3: Case = {
+  image: [
+    [0, 0, 0],
+    [0, 1, 1],
+  ],
+  startX: 1,
+  startY: 1,
+  newColor: 1,
+  result: [
+    [0, 0, 0],
+    [0, 1, 1],
+  ],
+};
+
+export const cases = [case1, case2, case3];

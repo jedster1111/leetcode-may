@@ -16,16 +16,11 @@ export const floodFill = function (
   startingCol: number,
   newColor: number
 ): Image {
-  const visitedSquares: { [positionKey: string]: true } = {};
-
   const originalColor = image[startingRow][startingCol];
+  if (originalColor === newColor) return image;
 
   function doWork(col: number, row: number): void {
-    const positionKey = col.toString() + "," + row.toString();
-
-    if (visitedSquares[positionKey] || isInRange(col, row, image)) return;
-
-    visitedSquares[positionKey] = true;
+    if (isInRange(col, row, image)) return;
 
     if (image[row][col] === originalColor) {
       image[row][col] = newColor;
