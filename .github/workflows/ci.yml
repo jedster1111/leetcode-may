@@ -1,8 +1,8 @@
-name: CI
+name: CI Workflow
 on: [push, pull_request]
 
 jobs:
-  ci:
+  CI Job:
     runs-on: ubuntu-16.04
     steps:
       - name: Setup Node.js environment
