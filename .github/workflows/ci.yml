@@ -1,0 +1,19 @@
+name: CI
+on: [push, pull_request]
+
+jobs:
+  name: Setup Node.js environment
+    uses: actions/setup-node@v1.4.2
+    with:
+      node-version: '10.x'
+
+  name: Build
+      steps:
+        - name: Install dependencies
+          run: yarn install
+        
+        - name: Build
+          run: yarn build
+
+        - name: Test
+          run: yarn test
