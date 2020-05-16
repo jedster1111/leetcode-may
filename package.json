@@ -20,6 +20,8 @@
     "build": "tsc",
     "build:ci": "tsc --noEmit",
     "test": "jest",
-    "test:ci": "jest --ci"
+    "test:ci": "jest --ci",
+    "lint": "eslint src/**/*",
+    "lint:fix": "eslint --fix src/**/*"
   }
 }
