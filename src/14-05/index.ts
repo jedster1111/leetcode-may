@@ -1,4 +1,4 @@
-import { Letters, assertStringLowerCaseLetter } from "./Letters";
+import { assertStringLowerCaseLetter } from "./Letters";
 
 type Trie = {
   insert: (word: string) => void;
@@ -6,50 +6,41 @@ type Trie = {
   startsWith: (prefix: string) => boolean;
 };
 
-type TrieNode<Letter extends Letters = Letters> = {
-  value: Letter | null;
-  children: { [K in Letters]?: TrieNode<K> };
-  isEndOfWord: boolean;
+type TrieNode = {
+  value?: string;
+  children: { [letter: string]: TrieNode };
+  isEndOfWord?: boolean;
 };
 
 const insertWordIntoNode = (node: TrieNode, word: string): void => {
-  const isEndOfWord = word.length === 1;
-  const firstLetter = word[0];
-
-  assertStringLowerCaseLetter(firstLetter);
-
-  const childNode = node.children[firstLetter];
-
-  if (childNode) {
-    if (isEndOfWord) {
-      childNode.isEndOfWord = true;
-    } else {
-      insertWordIntoNode(childNode, word.slice(1));
+  let currentNode = node;
+  for (let i = 0; i < word.length; i++) {
+    const letter = word[i];
+    assertStringLowerCaseLetter(letter);
+    if (!(letter in currentNode.children)) {
+      currentNode.children[letter] = {
+        children: {},
+      };
     }
-  } else {
-    const newNode: TrieNode = {
-      value: firstLetter,
-      children: {},
-      isEndOfWord,
-    };
-    (node.children[firstLetter] as any) = newNode;
+    if (!word[i + 1]) currentNode.children[letter].isEndOfWord = true;
 
-    if (!isEndOfWord) insertWordIntoNode(newNode, word.slice(1));
+    currentNode = currentNode.children[letter];
   }
 };
 
 const nodeSearch = (node: TrieNode, word: string, exact: boolean): boolean => {
-  const firstLetter = word[0];
+  let currentNode = node;
+  for (const letter of word) {
+    assertStringLowerCaseLetter(letter);
+    if (letter in currentNode.children) {
+      currentNode = currentNode.children[letter];
+    } else return false;
+  }
 
-  assertStringLowerCaseLetter(firstLetter);
-
-  const childNode = node.children[firstLetter];
-
-  if (!childNode) return false;
-
-  if (word.length === 1) return exact ? childNode.isEndOfWord : true;
-
-  return nodeSearch(childNode, word.slice(1), exact);
+  if (exact) {
+    return Boolean(currentNode.isEndOfWord);
+  }
+  return true;
 };
 
 function assertEmptyWord(word: string): void {
@@ -57,7 +48,7 @@ function assertEmptyWord(word: string): void {
 }
 
 export const createTrie = (): Trie => {
-  const rootNode: TrieNode = { value: null, children: {}, isEndOfWord: false };
+  const rootNode: TrieNode = { children: {} };
 
   const insert: Trie["insert"] = (word) => {
     assertEmptyWord(word);
