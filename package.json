@@ -27,7 +27,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "build:ci": "tsc --noEmit",
+    "build:ci": "tsc --incremental false --noEmit",
     "test": "jest",
     "test:ci": "jest --ci",
     "lint": "eslint src/**/*",
