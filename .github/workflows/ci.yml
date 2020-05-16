@@ -20,5 +20,8 @@ jobs:
       - name: Build
         run: yarn build:ci
 
+      - name: Lint
+        run: yarn lint
+
       - name: Test
         run: yarn test:ci
