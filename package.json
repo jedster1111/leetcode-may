@@ -16,6 +16,15 @@
     "ts-node": "^8.10.1",
     "typescript": "^3.8.3"
   },
+  "devDependencies": {
+    "husky": "^4.2.5"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn lint:fix",
+      "pre-push": "yarn lint:fix && yarn test"
+    }
+  },
   "scripts": {
     "build": "tsc",
     "build:ci": "tsc --noEmit",
